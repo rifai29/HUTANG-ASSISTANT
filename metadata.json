@@ -1,0 +1,8 @@
+{
+  "name": "Catatan Hutang & Piutang",
+  "description": "Aplikasi pencatatan hutang dan piutang yang detail dengan fitur kelola, ringkasan otomatis, dan visualisasi data.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "entities": {
+    "Debt": {
+      "title": "Catatan Hutang",
+      "description": "Represents a single debt or credit entry.",
+      "type": "object",
+      "properties": {
+        "contactName": {
+          "type": "string",
+          "description": "Name of the person who owes or is owed money."
+        },
+        "amount": {
+          "type": "number",
+          "description": "Amount of money."
+        },
+        "type": {
+          "type": "string",
+          "enum": ["owe", "owed"],
+          "description": "Whether the user owes money (owe) or is owed money (owed)."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "paid"],
+          "description": "Current payment status."
+        },
+        "dueDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Optional deadline for payment."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional details."
+        },
+        "userId": {
+          "type": "string",
+          "description": "The UID of the user who owns this record."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["contactName", "amount", "type", "status", "userId"]
+    }
+  },
+  "firestore": {
+    "debts/{debtId}": {
+      "schema": "Debt",
+      "description": "Collection of debt and credit entries."
+    }
+  }
+}

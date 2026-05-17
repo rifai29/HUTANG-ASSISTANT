@@ -1,0 +1,68 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. Primitives
+    function isSignedIn() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+    
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // 3. Entity Validation
+    function isValidDebt(debt) {
+      return debt.keys().hasAll(['contactName', 'amount', 'type', 'status', 'userId', 'createdAt', 'updatedAt'])
+        && debt.keys().size() >= 7 // Allow optional fields like notes and dueDate
+        && debt.contactName is string && debt.contactName.size() > 0 && debt.contactName.size() <= 100
+        && (debt.amount is int || debt.amount is float) && debt.amount >= 0
+        && debt.type in ['owe', 'owed']
+        && debt.status in ['pending', 'paid']
+        && debt.userId == request.auth.uid
+        && (debt.get('notes', '') is string && debt.get('notes', '').size() <= 1000)
+        && (debt.get('dueDate', null) == null || debt.get('dueDate', '') is string)
+        && debt.createdAt == (resource == null ? request.time : resource.data.createdAt)
+        && debt.updatedAt == request.time;
+    }
+
+    // 4. Matches
+    match /debts/{debtId} {
+      allow get: if isOwner(existing().userId);
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      
+      allow create: if isSignedIn() 
+        && isValidId(debtId)
+        && isValidDebt(incoming());
+
+      allow update: if isOwner(existing().userId)
+        && isValidDebt(incoming())
+        && incoming().userId == existing().userId // Ownership immutable
+        && incoming().createdAt == existing().createdAt // CreatedAt immutable
+        && (
+          // Action: Mark as Paid
+          (incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt'])) ||
+          // Action: Full Edit
+          (incoming().diff(existing()).affectedKeys().hasAll(['updatedAt']))
+        );
+
+      allow delete: if isOwner(existing().userId);
+    }
+  }
+}
