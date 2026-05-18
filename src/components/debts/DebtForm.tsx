@@ -61,7 +61,7 @@ export function DebtForm({ isOpen, onClose, onSubmit, initialData }: Props) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 h-full w-full max-w-sm bg-white shadow-2xl border-l border-slate-200 z-50 flex flex-col rounded-l-[20px]"
+            className="fixed top-0 right-0 h-full w-full sm:max-w-sm bg-white shadow-2xl border-l border-slate-200 z-50 flex flex-col sm:rounded-l-[20px]"
           >
             <div className="p-6 border-b border-slate-100 flex items-center justify-between shrink-0">
               <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">

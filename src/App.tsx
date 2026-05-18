@@ -149,9 +149,24 @@ export default function App() {
   }
 
   return (
-    <div className="flex h-screen w-full bg-slate-50 text-slate-800 font-sans overflow-hidden">
-      {/* Sidebar Navigation */}
-      <aside className="w-60 bg-white border-r border-slate-200 flex flex-col shrink-0">
+    <div className="flex flex-col md:flex-row h-screen w-full bg-slate-50 text-slate-800 font-sans overflow-hidden">
+      {/* Mobile Header */}
+      <header className="md:hidden h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 shrink-0 z-40">
+        <div className="flex items-center gap-2">
+          <div className="bg-indigo-600 p-1.5 rounded">
+            <Wallet className="w-4 h-4 text-white" />
+          </div>
+          <h1 className="text-sm font-bold tracking-tight text-slate-900 uppercase">Debts Pro</h1>
+        </div>
+        <div className="flex items-center gap-2">
+          <button onClick={logout} className="p-2 text-slate-400">
+            <LogOut className="w-4 h-4" />
+          </button>
+        </div>
+      </header>
+
+      {/* Sidebar Navigation - Hidden on mobile */}
+      <aside className="hidden md:flex w-60 bg-white border-r border-slate-200 flex-col shrink-0">
         <div className="h-14 border-b border-slate-200 flex items-center px-6 shrink-0">
           <div className="bg-indigo-600 p-1.5 rounded mr-3">
             <Wallet className="w-4 h-4 text-white" />
@@ -202,18 +217,18 @@ export default function App() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col p-6 space-y-6 overflow-hidden">
+      <main className="flex-1 flex flex-col p-4 md:p-6 space-y-6 overflow-hidden">
         {/* Top Header */}
-        <div className="flex items-center justify-between shrink-0">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
           <div>
-            <h2 className="text-xl font-bold text-slate-900">Dashboard Keuangan</h2>
-            <p className="text-xs text-slate-500 mt-1">Ringkasan transaksi dan analisis saldo anda.</p>
+            <h2 className="text-lg md:text-xl font-bold text-slate-900">Dashboard Keuangan</h2>
+            <p className="text-[10px] md:text-xs text-slate-500 mt-1">Ringkasan transaksi dan analisis saldo anda.</p>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto bg-white p-3 sm:p-0 rounded-2xl sm:bg-transparent border sm:border-0 border-slate-100">
             <div className="text-right">
-              <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Status Bersih</p>
+              <p className="text-[9px] md:text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Status Bersih</p>
               <p className={cn(
-                "text-sm font-bold tracking-tight",
+                "text-xs md:text-sm font-bold tracking-tight",
                 stats.netBalance >= 0 ? "text-emerald-600" : "text-rose-600"
               )}>
                 {formatCurrency(stats.netBalance)}
@@ -224,56 +239,54 @@ export default function App() {
                 setEditingDebt(null);
                 setIsFormOpen(true);
               }}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2 px-4 rounded shadow-sm transition-all active:scale-95 flex items-center gap-2"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] md:text-xs font-bold py-2 px-4 rounded-xl shadow-sm transition-all active:scale-95 flex items-center gap-2"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-3.5 h-3.5" />
               Catatan Baru
             </button>
           </div>
         </div>
 
         {/* Quick Stats Grid */}
-        <div className="grid grid-cols-4 gap-4 shrink-0">
-          <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Total Piutang</p>
-            <p className="text-xl font-bold text-slate-900 tracking-tight">{formatCurrency(stats.totalOwedToMe)}</p>
-            <p className="text-[9px] text-emerald-500 mt-1 font-medium italic">Uang yang akan kembali</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 shrink-0">
+          <div className="bg-white p-3 md:p-4 rounded-xl border border-slate-200 shadow-sm">
+            <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Total Piutang</p>
+            <p className="text-base md:text-xl font-bold text-slate-900 tracking-tight">{formatCurrency(stats.totalOwedToMe)}</p>
           </div>
-          <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm border-l-4 border-l-indigo-500">
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Hutang Aktif</p>
-            <p className="text-xl font-bold text-indigo-600 tracking-tight">{formatCurrency(stats.totalIOwe)}</p>
-            <p className="text-[9px] text-slate-500 mt-1 font-medium">{debts.filter(d => d.type === 'owe' && d.status === 'pending').length} Transaksi Terbuka</p>
+          <div className="bg-white p-3 md:p-4 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-indigo-500">
+            <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Hutang Aktif</p>
+            <p className="text-base md:text-xl font-bold text-indigo-600 tracking-tight">{formatCurrency(stats.totalIOwe)}</p>
           </div>
-          <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm col-span-2 relative overflow-hidden flex items-center justify-between">
+          <div className="bg-white p-3 md:p-4 rounded-xl border border-slate-200 shadow-sm col-span-2 relative overflow-hidden flex items-center justify-between">
             <div className="relative z-10">
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">AI Insight</p>
-              <div className="text-[11px] text-slate-600 italic line-clamp-2 max-w-sm">
-                {isAiLoading ? 'Menganalisis data...' : aiSummary || 'Pencet tombol analisis di sidebar untuk mendapatkan wawasan keuangan.'}
+              <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">AI Insight</p>
+              <div className="text-[10px] md:text-[11px] text-slate-600 italic line-clamp-1 md:line-clamp-2 max-w-sm">
+                {isAiLoading ? 'Menganalisis data...' : aiSummary || 'Gunakan tombol analisis di sidebar.'}
               </div>
             </div>
-            <MessageSquare className="w-12 h-12 text-slate-50 absolute -right-2 -bottom-2 opacity-10" />
+            <MessageSquare className="w-8 h-8 md:w-12 md:h-12 text-slate-50 absolute -right-2 -bottom-2 opacity-10" />
           </div>
         </div>
 
-        {/* Detailed Table Section */}
-        <div className="flex-1 bg-white border border-slate-200 rounded-lg shadow-sm flex flex-col overflow-hidden">
-          <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-            <h3 className="text-sm font-bold text-slate-700">Rincian Transaksi Detail</h3>
-            <div className="flex gap-2">
-              <div className="relative">
+        {/* Detailed Table/Card Section */}
+        <div className="flex-1 bg-white border border-slate-200 rounded-2xl md:rounded-lg shadow-sm flex flex-col overflow-hidden">
+          <div className="px-4 py-3 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between bg-slate-50/50 gap-3">
+            <h3 className="text-xs md:text-sm font-bold text-slate-700">Rincian Transaksi Detail</h3>
+            <div className="flex flex-wrap gap-2">
+              <div className="relative flex-1 sm:flex-none">
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
                 <input 
                   type="text" 
-                  placeholder="Cari nama/catatan..." 
+                  placeholder="Cari..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="text-xs border border-slate-300 rounded pl-8 pr-3 py-1.5 w-48 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                  className="text-xs border border-slate-300 rounded-lg pl-8 pr-3 py-1.5 w-full sm:w-40 focus:outline-none focus:ring-2 focus:ring-indigo-100 bg-white"
                 />
               </div>
               <select 
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value as any)}
-                className="px-2 py-1.5 border border-slate-300 rounded text-[10px] font-medium text-slate-600 bg-white focus:outline-none"
+                className="flex-1 sm:flex-none px-2 py-1.5 border border-slate-300 rounded-lg text-[10px] font-medium text-slate-600 bg-white focus:outline-none"
               >
                 <option value="all">Semua Tipe</option>
                 <option value="owe">Hutang</option>
@@ -282,7 +295,7 @@ export default function App() {
               <select 
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value as any)}
-                className="px-2 py-1.5 border border-slate-300 rounded text-[10px] font-medium text-slate-600 bg-white focus:outline-none"
+                className="flex-1 sm:flex-none px-2 py-1.5 border border-slate-300 rounded-lg text-[10px] font-medium text-slate-600 bg-white focus:outline-none"
               >
                 <option value="all">Semua Status</option>
                 <option value="pending">Tertunda</option>
@@ -292,7 +305,8 @@ export default function App() {
           </div>
           
           <div className="overflow-auto flex-1 high-density-scrollbar">
-            <table className="w-full text-left border-collapse min-w-[800px]">
+            {/* Desktop Table View */}
+            <table className="hidden md:table w-full text-left border-collapse min-w-[800px]">
               <thead className="sticky top-0 bg-white border-b border-slate-200 text-[10px] uppercase text-slate-400 font-bold tracking-widest z-10">
                 <tr>
                   <th className="px-6 py-3">Nama / ID</th>
@@ -385,6 +399,80 @@ export default function App() {
                 </AnimatePresence>
               </tbody>
             </table>
+
+            {/* Mobile Card View */}
+            <div className="md:hidden p-4 space-y-4">
+              <AnimatePresence mode="popLayout" initial={false}>
+                {filteredDebts.length > 0 ? (
+                  filteredDebts.map((debt) => (
+                    <motion.div
+                      key={debt.id}
+                      layout
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      className={cn(
+                        "bg-white border border-slate-100 rounded-xl p-4 shadow-sm",
+                        debt.status === 'paid' && "opacity-60"
+                      )}
+                    >
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <h4 className="font-bold text-slate-900">{debt.contactName}</h4>
+                          <p className="text-[9px] text-slate-400 font-mono uppercase">#{debt.id.slice(-6)}</p>
+                        </div>
+                        <span className={cn(
+                          "px-2 py-0.5 rounded text-[8px] font-bold uppercase",
+                          debt.type === 'owe' ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-600"
+                        )}>
+                          {debt.type === 'owe' ? 'HUTANG' : 'PIUTANG'}
+                        </span>
+                      </div>
+                      
+                      <div className="text-lg font-mono font-bold text-slate-900 mb-3">
+                        {formatCurrency(debt.amount)}
+                      </div>
+                      
+                      <div className="flex items-center justify-between border-t border-slate-50 pt-3 mt-3">
+                        <div className="text-[10px] text-slate-500">
+                          {new Date(debt.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' })}
+                        </div>
+                        <div className="flex gap-4">
+                          <button 
+                            onClick={() => handleToggleStatus(debt)}
+                            className={cn(
+                              "text-[10px] font-bold uppercase",
+                              debt.status === 'paid' ? "text-slate-400" : "text-amber-600"
+                            )}
+                          >
+                            {debt.status === 'paid' ? 'LUNASKAN' : 'BELUM'}
+                          </button>
+                          <button 
+                            onClick={() => {
+                              setEditingDebt(debt);
+                              setIsFormOpen(true);
+                            }}
+                            className="text-indigo-600 text-[10px] font-bold uppercase"
+                          >
+                            EDIT
+                          </button>
+                          <button 
+                            onClick={() => handleDeleteDebt(debt.id)}
+                            className="text-rose-400 text-[10px] font-bold uppercase"
+                          >
+                            HAPUS
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))
+                ) : (
+                  <div className="py-10 text-center">
+                    <p className="text-slate-400 text-xs italic">Data tidak ditemukan</p>
+                  </div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
           
           <div className="mt-auto p-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-[10px] font-medium text-slate-500 uppercase tracking-widest shrink-0">
