@@ -1,10 +1,28 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Plus, Search, RefreshCw, MessageSquare, PieChart as PieChartIcon, Wallet, LogOut, LogIn } from 'lucide-react';
+import { 
+  Plus, 
+  Search, 
+  RefreshCw, 
+  MessageSquare, 
+  PieChart as PieChartIcon, 
+  Wallet, 
+  LogOut, 
+  LogIn, 
+  ArrowUpRight, 
+  ArrowDownLeft, 
+  Sparkles, 
+  Check, 
+  Clock, 
+  Trash2, 
+  Edit2, 
+  User, 
+  Filter, 
+  Calendar 
+} from 'lucide-react';
 import { Debt, DebtStats as IDebtStats } from './types';
 import { DebtForm } from './components/debts/DebtForm';
 import { cn, formatCurrency } from './lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import { useAuth } from './context/AuthContext';
 import { useDb } from './context/DbContext';
 
@@ -108,42 +126,51 @@ export default function App() {
     }
   };
 
-  const chartData = [
-    { name: 'Piutang', value: stats.totalOwedToMe, color: '#10b981' },
-    { name: 'Hutang', value: stats.totalIOwe, color: '#f43f5e' },
-  ];
-
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <RefreshCw className="w-10 h-10 text-blue-600 animate-spin" />
+      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50">
+        <div className="relative flex items-center justify-center">
+          <div className="w-16 h-16 border-4 border-indigo-600/20 border-t-indigo-600 rounded-full animate-spin"></div>
+          <Wallet className="absolute w-6 h-6 text-indigo-600 animate-pulse" />
+        </div>
+        <p className="mt-4 text-xs font-semibold text-slate-500 tracking-wider uppercase">Memuat sistem...</p>
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-slate-50">
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-tr from-slate-100 via-slate-50 to-indigo-50/30">
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-md w-full bg-white p-8 rounded-[2rem] shadow-xl shadow-slate-200 border border-slate-100 text-center"
+          transition={{ duration: 0.4, ease: 'easeOut' }}
+          className="max-w-md w-full bg-white p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100/80 text-center relative overflow-hidden"
         >
-          <div className="w-20 h-20 bg-blue-600 rounded-3xl flex items-center justify-center shadow-lg shadow-blue-200 mx-auto mb-8">
-            <Wallet className="text-white w-10 h-10" />
+          {/* Decorative glowing top light */}
+          <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-indigo-500 to-indigo-600" />
+          
+          <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-200/80 mx-auto mb-6">
+            <Wallet className="text-white w-8 h-8" />
           </div>
-          <h1 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">Catatan Hutang</h1>
-          <p className="text-slate-600 mb-8 leading-relaxed">
-            Kelola hutang dan piutang Anda dengan mudah, aman, dan dapatkan ringkasan cerdas dari AI.
+          
+          <h1 className="text-2xl font-bold text-slate-900 mb-2 tracking-tight">Catatan Hutang</h1>
+          <p className="text-xs font-semibold text-indigo-600 tracking-wider uppercase mb-5">Professional Ledger</p>
+          
+          <p className="text-slate-500 text-sm mb-8 leading-relaxed max-w-xs mx-auto">
+            Aplikasi modern untuk mengelola, melacak, dan menganalisis catatan hutang & piutang secara real-time dengan bantuan AI asisten.
           </p>
+          
           <button
             onClick={login}
-            className="w-full flex items-center justify-center gap-3 px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl transition-all shadow-lg active:scale-95"
+            className="w-full flex items-center justify-center gap-3 px-6 py-3.5 bg-slate-900 hover:bg-indigo-600 active:bg-indigo-700 text-white font-semibold text-sm rounded-xl transition-all duration-200 shadow-md active:scale-[0.98]"
           >
-            <LogIn className="w-5 h-5" />
-            Masuk dengan Google
+            <LogIn className="w-4 h-4" />
+            Masuk dengan Akun Google
           </button>
         </motion.div>
+        
+        <p className="mt-6 text-[10px] font-medium text-slate-400 tracking-wider uppercase">Aman • Cepat • Terintegrasi Cloud</p>
       </div>
     );
   }
@@ -153,62 +180,70 @@ export default function App() {
       {/* Mobile Header */}
       <header className="md:hidden h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 shrink-0 z-40">
         <div className="flex items-center gap-2">
-          <div className="bg-indigo-600 p-1.5 rounded">
+          <div className="bg-indigo-600 p-1.5 rounded-lg shadow-sm shadow-indigo-100">
             <Wallet className="w-4 h-4 text-white" />
           </div>
-          <h1 className="text-sm font-bold tracking-tight text-slate-900 uppercase">Debts Pro</h1>
+          <span className="text-sm font-bold tracking-tight text-slate-900 uppercase">Debts Pro</span>
         </div>
-        <div className="flex items-center gap-2">
-          <button onClick={logout} className="p-2 text-slate-400">
+        <div className="flex items-center gap-3">
+          <div className="w-7 h-7 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-xs">
+            {user.displayName?.charAt(0) || user.email?.charAt(0)}
+          </div>
+          <button 
+            onClick={logout} 
+            className="p-1.5 text-slate-400 hover:text-rose-600 transition-colors"
+            title="Keluar"
+          >
             <LogOut className="w-4 h-4" />
           </button>
         </div>
       </header>
 
-      {/* Sidebar Navigation - Hidden on mobile */}
+      {/* Sidebar Navigation - Desktop */}
       <aside className="hidden md:flex w-60 bg-white border-r border-slate-200 flex-col shrink-0">
-        <div className="h-14 border-b border-slate-200 flex items-center px-6 shrink-0">
-          <div className="bg-indigo-600 p-1.5 rounded mr-3">
+        <div className="h-16 border-b border-slate-200 flex items-center px-6 shrink-0 gap-3">
+          <div className="bg-indigo-600 p-2 rounded-xl shadow-lg shadow-indigo-100">
             <Wallet className="w-4 h-4 text-white" />
           </div>
-          <h1 className="text-sm font-bold tracking-tight text-slate-900 uppercase">Debts Pro</h1>
+          <div>
+            <h1 className="text-xs font-bold tracking-widest text-slate-900 uppercase">Debts Pro</h1>
+            <p className="text-[9px] text-slate-400 font-medium">FINANCIAL JOURNAL</p>
+          </div>
         </div>
         
-        <nav className="flex-1 p-4 space-y-1">
-          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-2">Menu Utama</div>
-          <a href="#" className="flex items-center gap-3 px-3 py-2 bg-indigo-50 text-indigo-700 rounded-md text-xs font-semibold">
-            <PieChartIcon className="w-4 h-4" />
+        <nav className="flex-1 p-4 space-y-1.5">
+          <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-3 px-3">Menu Utama</div>
+          <a href="#" className="flex items-center gap-3 px-3 py-2.5 bg-indigo-50/80 text-indigo-700 rounded-xl text-xs font-semibold hover:bg-indigo-50 transition-colors">
+            <PieChartIcon className="w-4 h-4 text-indigo-600" />
             Dashboard Ringkasan
           </a>
-          <div className="pt-4">
-            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-2">Laporan AI</div>
-            <div className="px-3 py-2">
-              <button 
-                onClick={fetchAiSummary}
-                disabled={isAiLoading || debts.length === 0}
-                className="w-full text-left text-xs font-medium text-slate-600 flex items-center gap-2 hover:text-indigo-600 transition-colors"
-              >
-                <div className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
-                Dapatkan Analisis
-              </button>
-            </div>
+          <div className="pt-4 border-t border-slate-100 mt-4">
+            <button 
+              onClick={fetchAiSummary}
+              disabled={isAiLoading || debts.length === 0}
+              className="w-full flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50 rounded-xl text-xs font-medium transition-colors"
+            >
+              <Sparkles className="w-4 h-4 text-indigo-500 animate-pulse" />
+              <span>Analisis AI</span>
+            </button>
           </div>
         </nav>
         
-        <div className="p-4 border-t border-slate-100 bg-slate-50">
+        <div className="p-4 border-t border-slate-100 bg-slate-50/65">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3 overflow-hidden">
-              <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-xs shrink-0">
+              <div className="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-md shadow-indigo-100">
                 {user.displayName?.charAt(0) || user.email?.charAt(0)}
               </div>
               <div className="overflow-hidden">
-                <p className="text-[10px] font-bold text-slate-900 truncate">{user.displayName || 'User'}</p>
-                <p className="text-[9px] text-slate-500 truncate">{user.email}</p>
+                <p className="text-xs font-bold text-slate-950 truncate">{user.displayName || 'User'}</p>
+                <p className="text-[9px] text-slate-400 font-medium truncate">{user.email}</p>
               </div>
             </div>
             <button 
               onClick={logout}
-              className="p-1.5 text-slate-400 hover:text-rose-600 transition-colors"
+              className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
+              title="Keluar"
             >
               <LogOut className="w-4 h-4" />
             </button>
@@ -217,21 +252,23 @@ export default function App() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col p-4 md:p-6 space-y-6 overflow-hidden">
+      <main className="flex-1 flex flex-col p-4 md:p-6 space-y-5 md:space-y-6 overflow-y-auto md:overflow-hidden min-h-0 bg-[#f8fafc]">
         {/* Top Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between sm:gap-4 shrink-0 mt-1 md:mt-0">
           <div>
-            <h2 className="text-lg md:text-xl font-bold text-slate-900">Dashboard Keuangan</h2>
-            <p className="text-[10px] md:text-xs text-slate-500 mt-1">Ringkasan transaksi dan analisis saldo anda.</p>
+            <h2 className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+              Keuangan Anda
+            </h2>
+            <p className="text-[11px] text-slate-400 font-medium">Kelola dan pantau seluruh transaksi kredit secara praktis.</p>
           </div>
-          <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto bg-white p-3 sm:p-0 rounded-2xl sm:bg-transparent border sm:border-0 border-slate-100">
+          <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto bg-white p-3 sm:p-0 rounded-2xl sm:bg-transparent border sm:border-0 border-slate-100 mt-3 sm:mt-0">
             <div className="text-right">
-              <p className="text-[9px] md:text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Status Bersih</p>
+              <p className="text-[9px] uppercase tracking-wider text-slate-400 font-bold">Status Bersih</p>
               <p className={cn(
-                "text-xs md:text-sm font-bold tracking-tight",
+                "text-xs md:text-sm font-semibold font-mono",
                 stats.netBalance >= 0 ? "text-emerald-600" : "text-rose-600"
               )}>
-                {formatCurrency(stats.netBalance)}
+                {stats.netBalance >= 0 ? '+' : ''}{formatCurrency(stats.netBalance)}
               </p>
             </div>
             <button
@@ -239,9 +276,9 @@ export default function App() {
                 setEditingDebt(null);
                 setIsFormOpen(true);
               }}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] md:text-xs font-bold py-2 px-4 rounded-xl shadow-sm transition-all active:scale-95 flex items-center gap-2"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold py-2 px-3.5 rounded-xl shadow-md shadow-indigo-100 transition-all hover:scale-[1.02] active:scale-95 flex items-center gap-1.5"
             >
-              <Plus className="w-3.5 h-3.5" />
+              <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
               Catatan Baru
             </button>
           </div>
@@ -249,30 +286,76 @@ export default function App() {
 
         {/* Quick Stats Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 shrink-0">
-          <div className="bg-white p-3 md:p-4 rounded-xl border border-slate-200 shadow-sm">
-            <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Total Piutang</p>
-            <p className="text-base md:text-xl font-bold text-slate-900 tracking-tight">{formatCurrency(stats.totalOwedToMe)}</p>
-          </div>
-          <div className="bg-white p-3 md:p-4 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-indigo-500">
-            <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Hutang Aktif</p>
-            <p className="text-base md:text-xl font-bold text-indigo-600 tracking-tight">{formatCurrency(stats.totalIOwe)}</p>
-          </div>
-          <div className="bg-white p-3 md:p-4 rounded-xl border border-slate-200 shadow-sm col-span-2 relative overflow-hidden flex items-center justify-between">
-            <div className="relative z-10">
-              <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">AI Insight</p>
-              <div className="text-[10px] md:text-[11px] text-slate-600 italic line-clamp-1 md:line-clamp-2 max-w-sm">
-                {isAiLoading ? 'Menganalisis data...' : aiSummary || 'Gunakan tombol analisis di sidebar.'}
+          <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:border-slate-200 transition-all">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total Piutang</span>
+                <span className="text-emerald-500 bg-emerald-50 p-1 rounded-lg">
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </span>
               </div>
+              <p className="text-[11px] text-slate-400 font-medium">Uang di orang lain</p>
             </div>
-            <MessageSquare className="w-8 h-8 md:w-12 md:h-12 text-slate-50 absolute -right-2 -bottom-2 opacity-10" />
+            <p className="text-md md:text-lg font-bold text-slate-900 font-mono tracking-tight mt-2">{formatCurrency(stats.totalOwedToMe)}</p>
+          </div>
+
+          <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:border-slate-200 transition-all">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Hutang Aktif</span>
+                <span className="text-rose-500 bg-rose-50 p-1 rounded-lg">
+                  <ArrowDownLeft className="w-3.5 h-3.5" />
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-400 font-medium">Tagihan wajib bayar</p>
+            </div>
+            <p className="text-md md:text-lg font-bold text-slate-900 font-mono tracking-tight mt-2">{formatCurrency(stats.totalIOwe)}</p>
+          </div>
+
+          <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm col-span-2 relative overflow-hidden hover:border-slate-200 transition-all flex flex-col justify-between">
+            <div className="flex justify-between items-start">
+              <div>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Analisis AI Insight</span>
+                <div className="text-[11px] text-slate-500 italic mt-1 leading-relaxed max-w-sm">
+                  {isAiLoading ? (
+                    <span className="flex items-center gap-1.5 text-indigo-600 font-semibold animate-pulse">
+                      <RefreshCw className="w-3 h-3 animate-spin" />
+                      Menganalisis data transaksi...
+                    </span>
+                  ) : (
+                    aiSummary || 'Tekan tombol di sebelah kanan untuk menganalisis data keuangan Anda.'
+                  )}
+                </div>
+              </div>
+              
+              <button
+                onClick={fetchAiSummary}
+                disabled={isAiLoading || debts.length === 0}
+                className="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl p-2 transition-all shrink-0 hover:scale-105 active:scale-95 disabled:opacity-40"
+                title="Dapatkan Ringkasan Keuangan AI"
+              >
+                <Sparkles className="w-4 h-4 text-indigo-600" />
+              </button>
+            </div>
+            
+            <div className="mt-2 text-[9px] text-indigo-500 font-bold bg-indigo-50/50 rounded-lg px-2.5 py-1 w-fit flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-ping" />
+              <span>GEMINI AI CO-PILOT</span>
+            </div>
           </div>
         </div>
 
         {/* Detailed Table/Card Section */}
-        <div className="flex-1 bg-white border border-slate-200 rounded-2xl md:rounded-lg shadow-sm flex flex-col overflow-hidden">
-          <div className="px-4 py-3 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between bg-slate-50/50 gap-3">
-            <h3 className="text-xs md:text-sm font-bold text-slate-700">Rincian Transaksi Detail</h3>
-            <div className="flex flex-wrap gap-2">
+        <div className="flex-1 bg-white border border-slate-200 rounded-2xl md:rounded-xl shadow-sm flex flex-col overflow-hidden min-h-[350px]">
+          <div className="px-4 py-3 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between bg-slate-50/40 gap-3">
+            <div className="flex items-center gap-2">
+              <h3 className="text-xs font-bold text-slate-700 uppercase tracking-widest">Rincian Transaksi</h3>
+              <span className="bg-slate-100 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                {filteredDebts.length}
+              </span>
+            </div>
+            
+            <div className="flex flex-wrap items-center gap-2">
               <div className="relative flex-1 sm:flex-none">
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
                 <input 
@@ -280,45 +363,49 @@ export default function App() {
                   placeholder="Cari..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="text-xs border border-slate-300 rounded-lg pl-8 pr-3 py-1.5 w-full sm:w-40 focus:outline-none focus:ring-2 focus:ring-indigo-100 bg-white"
+                  className="text-xs border border-slate-200 focus:border-indigo-500 rounded-lg pl-8 pr-3 py-1.5 w-full sm:w-44 focus:outline-none bg-white transition-all text-slate-800 placeholder:text-slate-400"
                 />
               </div>
-              <select 
-                value={filterType}
-                onChange={(e) => setFilterType(e.target.value as any)}
-                className="flex-1 sm:flex-none px-2 py-1.5 border border-slate-300 rounded-lg text-[10px] font-medium text-slate-600 bg-white focus:outline-none"
-              >
-                <option value="all">Semua Tipe</option>
-                <option value="owe">Hutang</option>
-                <option value="owed">Piutang</option>
-              </select>
-              <select 
-                value={filterStatus}
-                onChange={(e) => setFilterStatus(e.target.value as any)}
-                className="flex-1 sm:flex-none px-2 py-1.5 border border-slate-300 rounded-lg text-[10px] font-medium text-slate-600 bg-white focus:outline-none"
-              >
-                <option value="all">Semua Status</option>
-                <option value="pending">Tertunda</option>
-                <option value="paid">Lunas</option>
-              </select>
+              
+              <div className="flex gap-1.5 flex-1 sm:flex-none">
+                <select 
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value as any)}
+                  className="flex-1 sm:flex-none px-2 py-1.5 border border-slate-200 rounded-lg text-[10px] font-semibold text-slate-600 bg-white focus:outline-none hover:border-slate-300 cursor-pointer"
+                >
+                  <option value="all">Semua Tipe</option>
+                  <option value="owe">Saya Berhutang</option>
+                  <option value="owed">Saya Dipinjami</option>
+                </select>
+                
+                <select 
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value as any)}
+                  className="flex-1 sm:flex-none px-2 py-1.5 border border-slate-200 rounded-lg text-[10px] font-semibold text-slate-600 bg-white focus:outline-none hover:border-slate-300 cursor-pointer"
+                >
+                  <option value="all">Semua Status</option>
+                  <option value="pending">Belum Lunas</option>
+                  <option value="paid">Lunas</option>
+                </select>
+              </div>
             </div>
           </div>
           
-          <div className="overflow-auto flex-1 high-density-scrollbar">
+          <div className="overflow-auto flex-1 high-density-scrollbar bg-white">
             {/* Desktop Table View */}
             <table className="hidden md:table w-full text-left border-collapse min-w-[800px]">
-              <thead className="sticky top-0 bg-white border-b border-slate-200 text-[10px] uppercase text-slate-400 font-bold tracking-widest z-10">
+              <thead className="sticky top-0 bg-slate-50/80 backdrop-blur-sm border-b border-slate-200 text-[10px] uppercase text-slate-400 font-bold tracking-widest z-10">
                 <tr>
-                  <th className="px-6 py-3">Nama / ID</th>
-                  <th className="px-6 py-3">Jumlah</th>
+                  <th className="px-6 py-3">Nama Peminjam / ID</th>
+                  <th className="px-6 py-3">Jumlah (IDR)</th>
                   <th className="px-6 py-3">Tipe</th>
-                  <th className="px-6 py-3 text-center">Tanggal</th>
-                  <th className="px-6 py-3">Keterangan</th>
+                  <th className="px-6 py-3 text-center">Tanggal Dibuat</th>
+                  <th className="px-6 py-3">Catatan / Keterangan</th>
                   <th className="px-6 py-3">Status</th>
                   <th className="px-6 py-3 text-right">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="text-xs">
+              <tbody className="text-xs divide-y divide-slate-100">
                 <AnimatePresence mode="popLayout" initial={false}>
                   {filteredDebts.length > 0 ? (
                     filteredDebts.map((debt) => (
@@ -329,70 +416,98 @@ export default function App() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         className={cn(
-                          "hover:bg-slate-50 border-b border-slate-50 transition-colors",
-                          debt.status === 'paid' && "opacity-60"
+                          "hover:bg-[#f8fafc]/50 transition-colors duration-150 group",
+                          debt.status === 'paid' && "bg-[#f8fafc]/30 opacity-70"
                         )}
                       >
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-3">
                           <p className="font-bold text-slate-900">{debt.contactName}</p>
-                          <p className="text-[9px] text-slate-400 font-mono uppercase">#{debt.id.slice(-6)}</p>
+                          <p className="text-[9px] text-slate-400 font-mono uppercase tracking-wider">#{debt.id.slice(-6)}</p>
                         </td>
                         <td className={cn(
-                          "px-6 py-4 font-bold font-mono text-sm",
+                          "px-6 py-3 font-bold font-mono text-xs tracking-tight",
                           debt.type === 'owe' ? "text-rose-600" : "text-emerald-600"
                         )}>
                           {formatCurrency(debt.amount)}
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-3">
                           <span className={cn(
-                            "px-2 py-0.5 rounded text-[9px] font-bold uppercase",
-                            debt.type === 'owe' ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-600"
+                            "inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[9px] font-bold tracking-wider",
+                            debt.type === 'owe' 
+                              ? "bg-rose-50 text-rose-600 border border-rose-100" 
+                              : "bg-emerald-50 text-emerald-600 border border-emerald-100"
                           )}>
-                            {debt.type === 'owe' ? 'HUTANG' : 'PIUTANG'}
+                            {debt.type === 'owe' ? (
+                              <>
+                                <ArrowDownLeft className="w-2.5 h-2.5 shrink-0" />
+                                HUTANG
+                              </>
+                            ) : (
+                              <>
+                                <ArrowUpRight className="w-2.5 h-2.5 shrink-0" />
+                                PIUTANG
+                              </>
+                            )}
                           </span>
                         </td>
-                        <td className="px-6 py-4 text-center font-medium text-slate-500">
+                        <td className="px-6 py-3 text-center font-medium text-slate-500">
                           {new Date(debt.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}
                         </td>
-                        <td className="px-6 py-4 text-slate-500 max-w-xs truncate">
-                          {debt.notes || '-'}
+                        <td className="px-6 py-3 text-slate-500 max-w-xs truncate font-medium">
+                          {debt.notes || <span className="text-slate-300 italic">tidak ada catatan</span>}
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-3">
                           <button 
                             onClick={() => handleToggleStatus(debt)}
                             className={cn(
-                              "px-2 py-0.5 rounded-full text-[9px] font-bold uppercase transition-all hover:scale-105",
+                              "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase transition-all duration-150 hover:scale-[1.03] active:scale-95 shadow-sm border",
                               debt.status === 'paid' 
-                                ? "bg-slate-100 text-slate-500" 
-                                : "bg-amber-100 text-amber-700"
+                                ? "bg-slate-50 text-slate-500 border-slate-200" 
+                                : "bg-amber-50 text-amber-700 border-amber-200"
                             )}
                           >
-                            {debt.status === 'paid' ? 'LUNAS' : 'BELUM LUNAS'}
+                            {debt.status === 'paid' ? (
+                              <>
+                                <Check className="w-2.5 h-2.5" />
+                                LUNAS
+                              </>
+                            ) : (
+                              <>
+                                <Clock className="w-2.5 h-2.5" />
+                                BELUM LUNAS
+                              </>
+                            )}
                           </button>
                         </td>
-                        <td className="px-6 py-4 text-right space-x-3">
-                          <button 
-                            onClick={() => {
-                              setEditingDebt(debt);
-                              setIsFormOpen(true);
-                            }}
-                            className="text-indigo-600 font-bold hover:underline text-[10px]"
-                          >
-                            EDIT
-                          </button>
-                          <button 
-                            onClick={() => handleDeleteDebt(debt.id)}
-                            className="text-rose-400 font-bold hover:underline text-[10px]"
-                          >
-                            HAPUS
-                          </button>
+                        <td className="px-6 py-3 text-right">
+                          <div className="flex items-center justify-end gap-1.5 opacity-80 group-hover:opacity-100 transition-opacity">
+                            <button 
+                              onClick={() => {
+                                setEditingDebt(debt);
+                                setIsFormOpen(true);
+                              }}
+                              className="p-1 px-2.5 text-slate-600 hover:text-indigo-600 hover:bg-slate-100 rounded-lg text-[9px] font-bold uppercase tracking-wider flex items-center gap-1 transition-all"
+                              title="Edit"
+                            >
+                              <Edit2 className="w-2.5 h-2.5" />
+                              EDIT
+                            </button>
+                            <button 
+                              onClick={() => handleDeleteDebt(debt.id)}
+                              className="p-1 px-2.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg text-[9px] font-bold uppercase tracking-wider flex items-center gap-1 transition-all"
+                              title="Hapus"
+                            >
+                              <Trash2 className="w-2.5 h-2.5" />
+                              HAPUS
+                            </button>
+                          </div>
                         </td>
                       </motion.tr>
                     ))
                   ) : (
                     <tr>
                       <td colSpan={7} className="px-6 py-20 text-center">
-                        <p className="text-slate-400 font-medium text-sm italic">Data tidak ditemukan</p>
+                        <p className="text-slate-400 font-medium text-xs italic">Data tidak ditemukan</p>
                       </td>
                     </tr>
                   )}
@@ -401,73 +516,92 @@ export default function App() {
             </table>
 
             {/* Mobile Card View */}
-            <div className="md:hidden p-4 space-y-4">
+            <div className="md:hidden p-4 space-y-3.5 bg-slate-50/20">
               <AnimatePresence mode="popLayout" initial={false}>
                 {filteredDebts.length > 0 ? (
                   filteredDebts.map((debt) => (
                     <motion.div
                       key={debt.id}
                       layout
-                      initial={{ opacity: 0, y: 10 }}
+                      initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       className={cn(
-                        "bg-white border border-slate-100 rounded-xl p-4 shadow-sm",
-                        debt.status === 'paid' && "opacity-60"
+                        "bg-white border border-slate-200/60 rounded-xl p-4 shadow-sm",
+                        debt.status === 'paid' && "opacity-70 bg-slate-50/40"
                       )}
                     >
                       <div className="flex justify-between items-start mb-2">
                         <div>
-                          <h4 className="font-bold text-slate-900">{debt.contactName}</h4>
-                          <p className="text-[9px] text-slate-400 font-mono uppercase">#{debt.id.slice(-6)}</p>
+                          <h4 className="font-bold text-slate-900 text-sm">{debt.contactName}</h4>
+                          <span className="text-[8px] text-slate-400 font-mono uppercase tracking-wider block mt-0.5">#{debt.id.slice(-6)}</span>
                         </div>
+                        
                         <span className={cn(
-                          "px-2 py-0.5 rounded text-[8px] font-bold uppercase",
-                          debt.type === 'owe' ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-600"
+                          "inline-flex items-center gap-1 px-2 py-0.5 rounded text-[8px] font-bold tracking-wider",
+                          debt.type === 'owe' 
+                            ? "bg-rose-550 text-rose-600 bg-rose-50 border border-rose-100" 
+                            : "bg-emerald-50 text-emerald-600 border border-emerald-100"
                         )}>
+                          {debt.type === 'owe' ? <ArrowDownLeft className="w-2 h-2" /> : <ArrowUpRight className="w-2 h-2" />}
                           {debt.type === 'owe' ? 'HUTANG' : 'PIUTANG'}
                         </span>
                       </div>
                       
-                      <div className="text-lg font-mono font-bold text-slate-900 mb-3">
+                      <div className="text-md font-mono font-bold text-slate-900 mb-3 tracking-wide">
                         {formatCurrency(debt.amount)}
                       </div>
                       
-                      <div className="flex items-center justify-between border-t border-slate-50 pt-3 mt-3">
-                        <div className="text-[10px] text-slate-500">
+                      {debt.notes && (
+                        <p className="text-[10px] text-slate-500 bg-slate-50 p-2 rounded-lg font-medium mb-3 border border-slate-100/50">
+                          {debt.notes}
+                        </p>
+                      )}
+                      
+                      <div className="flex items-center justify-between border-t border-slate-100 pt-3 mt-1.5">
+                        <div className="flex items-center gap-1 text-[9px] text-slate-400 font-semibold tracking-wider uppercase">
+                          <Calendar className="w-2.5 h-2.5 text-slate-300" />
                           {new Date(debt.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' })}
                         </div>
-                        <div className="flex gap-4">
+                        
+                        <div className="flex items-center gap-3">
                           <button 
                             onClick={() => handleToggleStatus(debt)}
                             className={cn(
-                              "text-[10px] font-bold uppercase",
-                              debt.status === 'paid' ? "text-slate-400" : "text-amber-600"
+                              "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold border uppercase transition-all duration-150 active:scale-95",
+                              debt.status === 'paid' 
+                                ? "bg-slate-50 text-slate-500 border-slate-200" 
+                                : "bg-amber-50 text-amber-700 border-amber-200"
                             )}
                           >
-                            {debt.status === 'paid' ? 'LUNASKAN' : 'BELUM'}
+                            {debt.status === 'paid' ? 'LUNAS' : 'PENDING'}
                           </button>
-                          <button 
-                            onClick={() => {
-                              setEditingDebt(debt);
-                              setIsFormOpen(true);
-                            }}
-                            className="text-indigo-600 text-[10px] font-bold uppercase"
-                          >
-                            EDIT
-                          </button>
-                          <button 
-                            onClick={() => handleDeleteDebt(debt.id)}
-                            className="text-rose-400 text-[10px] font-bold uppercase"
-                          >
-                            HAPUS
-                          </button>
+                          
+                          <div className="flex gap-1.5">
+                            <button 
+                              onClick={() => {
+                                setEditingDebt(debt);
+                                setIsFormOpen(true);
+                              }}
+                              className="text-slate-400 hover:text-indigo-600"
+                              title="Edit"
+                            >
+                              <Edit2 className="w-3.5 h-3.5" />
+                            </button>
+                            <button 
+                              onClick={() => handleDeleteDebt(debt.id)}
+                              className="text-slate-400 hover:text-rose-600"
+                              title="Hapus"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </motion.div>
                   ))
                 ) : (
-                  <div className="py-10 text-center">
+                  <div className="py-12 text-center">
                     <p className="text-slate-400 text-xs italic">Data tidak ditemukan</p>
                   </div>
                 )}
@@ -475,8 +609,9 @@ export default function App() {
             </div>
           </div>
           
-          <div className="mt-auto p-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-[10px] font-medium text-slate-500 uppercase tracking-widest shrink-0">
-            <span>Menampilkan {filteredDebts.length} dari {debts.length} transaksi total</span>
+          <div className="mt-auto p-3.5 bg-slate-50/60 border-t border-slate-100 flex items-center justify-between text-[9px] font-semibold text-slate-400 uppercase tracking-widest shrink-0">
+            <span>Menampilkan {filteredDebts.length} dari {debts.length} transaksi</span>
+            <span className="text-[10px] text-slate-500 font-bold">DEBTS CLOUD SYSTEM</span>
           </div>
         </div>
       </main>
@@ -493,4 +628,5 @@ export default function App() {
     </div>
   );
 }
+
 
