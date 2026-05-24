@@ -63,7 +63,7 @@ export function DebtForm({ isOpen, onClose, onSubmit, initialData }: Props) {
             transition={{ type: 'spring', damping: 28, stiffness: 220 }}
             className="fixed top-0 right-0 h-full w-full sm:max-w-sm bg-white shadow-2xl border-l border-slate-200/80 z-50 flex flex-col sm:rounded-l-2xl"
           >
-            <div className="p-6 border-b border-slate-100 flex items-center justify-between shrink-0 bg-slate-50/40">
+            <div className="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between shrink-0 bg-slate-50/40">
               <div>
                 <h2 className="text-xs font-bold text-slate-900 uppercase tracking-widest">
                   {initialData ? 'Ubah Catatan' : 'Tambah Catatan Baru'}
@@ -79,7 +79,7 @@ export function DebtForm({ isOpen, onClose, onSubmit, initialData }: Props) {
             </div>
 
             <form onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-hidden">
-              <div className="flex-1 overflow-y-auto p-6 space-y-5 high-density-scrollbar bg-white">
+              <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-5 high-density-scrollbar bg-white">
                 <div className="space-y-1.5">
                   <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Nama Peminjam / Kontak</label>
                   <input
@@ -145,7 +145,7 @@ export function DebtForm({ isOpen, onClose, onSubmit, initialData }: Props) {
                 </div>
               </div>
 
-              <div className="p-6 border-t border-slate-100 flex gap-3 shrink-0 bg-slate-50/40">
+              <div className="p-5 sm:p-6 border-t border-slate-100 flex gap-3 shrink-0 bg-slate-50/40">
                 <button
                   type="submit"
                   className="flex-1 bg-indigo-600 text-white text-[11px] font-bold py-3.5 rounded-xl hover:bg-indigo-700 shadow-md shadow-indigo-100 transition-all active:scale-95 flex items-center justify-center gap-2"
