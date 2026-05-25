@@ -200,28 +200,28 @@ export default function App() {
       </header>
 
       {/* Sidebar Navigation - Desktop */}
-      <aside className="hidden md:flex w-60 bg-white border-r border-slate-200 flex-col shrink-0">
-        <div className="h-16 border-b border-slate-200 flex items-center px-6 shrink-0 gap-3">
-          <div className="bg-indigo-600 p-2 rounded-xl shadow-lg shadow-indigo-100">
-            <Wallet className="w-4 h-4 text-white" />
+      <aside className="hidden md:flex w-64 bg-white border-r border-slate-200 flex-col shrink-0">
+        <div className="h-16 md:h-20 border-b border-slate-200 flex items-center px-6 shrink-0 gap-3">
+          <div className="bg-indigo-600 p-2.5 rounded-xl shadow-lg shadow-indigo-100">
+            <Wallet className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="text-xs font-bold tracking-widest text-slate-900 uppercase">Debts Pro</h1>
-            <p className="text-[9px] text-slate-400 font-medium">FINANCIAL JOURNAL</p>
+            <h1 className="text-sm font-extrabold tracking-wider text-slate-900 uppercase">Debts Pro</h1>
+            <p className="text-[10px] text-slate-400 font-bold tracking-wider leading-none mt-0.5">FINANCIAL JOURNAL</p>
           </div>
         </div>
         
-        <nav className="flex-1 p-4 space-y-1.5">
-          <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-3 px-3">Menu Utama</div>
-          <a href="#" className="flex items-center gap-3 px-3 py-2.5 bg-indigo-50/80 text-indigo-700 rounded-xl text-xs font-semibold hover:bg-indigo-50 transition-colors">
+        <nav className="flex-1 p-5 space-y-2">
+          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 px-3">Menu Utama</div>
+          <a href="#" className="flex items-center gap-3 px-4 py-3 bg-indigo-50/80 text-indigo-700 rounded-xl text-xs md:text-[13px] font-bold hover:bg-indigo-50 transition-all border border-indigo-100/50">
             <PieChartIcon className="w-4 h-4 text-indigo-600" />
             Dashboard Ringkasan
           </a>
-          <div className="pt-4 border-t border-slate-100 mt-4">
+          <div className="pt-5 border-t border-slate-100 mt-5">
             <button 
               onClick={fetchAiSummary}
               disabled={isAiLoading || debts.length === 0}
-              className="w-full flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50 rounded-xl text-xs font-medium transition-colors"
+              className="w-full flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50 rounded-xl text-xs md:text-[13px] font-bold transition-all"
             >
               <Sparkles className="w-4 h-4 text-indigo-500 animate-pulse" />
               <span>Analisis AI</span>
@@ -229,15 +229,15 @@ export default function App() {
           </div>
         </nav>
         
-        <div className="p-4 border-t border-slate-100 bg-slate-50/65">
+        <div className="p-5 border-t border-slate-100 bg-slate-50/65">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3 overflow-hidden">
-              <div className="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-md shadow-indigo-100">
+              <div className="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-md shadow-indigo-100">
                 {user.displayName?.charAt(0) || user.email?.charAt(0)}
               </div>
               <div className="overflow-hidden">
-                <p className="text-xs font-bold text-slate-950 truncate">{user.displayName || 'User'}</p>
-                <p className="text-[9px] text-slate-400 font-medium truncate">{user.email}</p>
+                <p className="text-xs md:text-sm font-bold text-slate-950 truncate leading-snug">{user.displayName || 'User'}</p>
+                <p className="text-[9px] md:text-[10px] text-slate-400 font-medium truncate">{user.email}</p>
               </div>
             </div>
             <button 
@@ -252,20 +252,20 @@ export default function App() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-5 md:space-y-6 overflow-y-auto md:overflow-hidden min-h-0 bg-[#f8fafc]">
+      <main className="flex-1 flex flex-col p-3 sm:p-4 md:p-6 lg:p-8 space-y-4 sm:space-y-5 md:space-y-6 overflow-y-auto md:overflow-hidden min-h-0 bg-[#f8fafc]">
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between sm:gap-4 shrink-0 mt-0.5 md:mt-0">
           <div>
-            <h2 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
               Keuangan Anda
             </h2>
-            <p className="text-[10px] sm:text-[11px] text-slate-400 font-medium">Kelola dan pantau seluruh transaksi kredit secara praktis.</p>
+            <p className="text-[10px] sm:text-[11px] md:text-xs text-slate-400 font-medium">Kelola dan pantau seluruh transaksi kredit secara praktis.</p>
           </div>
           <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto bg-white p-2.5 sm:p-0 rounded-xl sm:bg-transparent border sm:border-0 border-slate-100 mt-2.5 sm:mt-0 shadow-sm sm:shadow-none">
-            <div className="text-right">
+            <div className="text-right sm:mr-2">
               <p className="text-[8px] sm:text-[9px] uppercase tracking-wider text-slate-400 font-bold">Status Bersih</p>
               <p className={cn(
-                "text-xs sm:text-sm font-semibold font-mono",
+                "text-xs sm:text-sm md:text-base font-semibold font-mono",
                 stats.netBalance >= 0 ? "text-emerald-600" : "text-rose-600"
               )}>
                 {stats.netBalance >= 0 ? '+' : ''}{formatCurrency(stats.netBalance)}
@@ -276,7 +276,7 @@ export default function App() {
                 setEditingDebt(null);
                 setIsFormOpen(true);
               }}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] sm:text-[11px] font-bold py-1.5 sm:py-2 px-3 sm:px-3.5 rounded-lg sm:rounded-xl shadow-md shadow-indigo-100 transition-all hover:scale-[1.02] active:scale-95 flex items-center gap-1 sm:gap-1.5"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] sm:text-[11px] md:text-xs font-bold py-1.5 sm:py-2 md:py-2.5 px-3 sm:px-3.5 md:px-4 rounded-lg sm:rounded-xl shadow-md shadow-indigo-100 transition-all hover:scale-[1.02] active:scale-95 flex items-center gap-1 sm:gap-1.5"
             >
               <Plus className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2.5]" />
               Catatan Baru
@@ -285,45 +285,45 @@ export default function App() {
         </div>
 
         {/* Quick Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 md:gap-4 shrink-0">
-          <div className="bg-white p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:border-slate-200 transition-all">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 md:gap-4 lg:gap-5 shrink-0">
+          <div className="bg-white p-3.5 sm:p-4 md:p-5 rounded-xl sm:rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:border-slate-200 transition-all">
             <div>
-              <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-                <span className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total Piutang</span>
-                <span className="text-emerald-500 bg-emerald-50 p-1 rounded-lg">
+              <div className="flex items-center justify-between mb-1.5 sm:mb-2 text-slate-400">
+                <span className="text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-widest text-slate-400">Total Piutang</span>
+                <span className="text-emerald-500 bg-emerald-50 p-1 md:p-1.5 rounded-lg">
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </span>
               </div>
-              <p className="text-[10px] sm:text-[11px] text-slate-400 font-medium leading-none">Uang di orang lain</p>
+              <p className="text-[10px] sm:text-[11px] md:text-xs text-slate-400 font-medium leading-none">Uang di orang lain</p>
             </div>
-            <p className="text-xs sm:text-sm md:text-lg font-bold text-slate-900 font-mono tracking-tight mt-1.5 sm:mt-2 truncate">{formatCurrency(stats.totalOwedToMe)}</p>
+            <p className="text-xs sm:text-sm md:text-lg lg:text-xl font-bold text-slate-900 font-mono tracking-tight mt-2 sm:mt-2.5 truncate">{formatCurrency(stats.totalOwedToMe)}</p>
           </div>
 
-          <div className="bg-white p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:border-slate-200 transition-all">
+          <div className="bg-white p-3.5 sm:p-4 md:p-5 rounded-xl sm:rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:border-slate-200 transition-all">
             <div>
-              <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-                <span className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest">Hutang Aktif</span>
-                <span className="text-rose-500 bg-rose-50 p-1 rounded-lg">
+              <div className="flex items-center justify-between mb-1.5 sm:mb-2 text-slate-400">
+                <span className="text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-widest text-slate-400">Hutang Aktif</span>
+                <span className="text-rose-500 bg-rose-50 p-1 md:p-1.5 rounded-lg">
                   <ArrowDownLeft className="w-3.5 h-3.5" />
                 </span>
               </div>
-              <p className="text-[10px] sm:text-[11px] text-slate-400 font-medium leading-none">Tagihan wajib bayar</p>
+              <p className="text-[10px] sm:text-[11px] md:text-xs text-slate-400 font-medium leading-none">Tagihan wajib bayar</p>
             </div>
-            <p className="text-xs sm:text-sm md:text-lg font-bold text-slate-900 font-mono tracking-tight mt-1.5 sm:mt-2 truncate">{formatCurrency(stats.totalIOwe)}</p>
+            <p className="text-xs sm:text-sm md:text-lg lg:text-xl font-bold text-slate-900 font-mono tracking-tight mt-2 sm:mt-2.5 truncate">{formatCurrency(stats.totalIOwe)}</p>
           </div>
 
-          <div className="bg-white p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-100 shadow-sm col-span-2 relative overflow-hidden hover:border-slate-200 transition-all flex flex-col justify-between">
+          <div className="bg-white p-3.5 sm:p-4 md:p-5 rounded-xl sm:rounded-2xl border border-slate-100 shadow-sm col-span-2 relative overflow-hidden hover:border-slate-200 transition-all flex flex-col justify-between">
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest">Analisis AI Insight</span>
-                <div className="text-[10px] sm:text-[11.5px] text-slate-500 italic mt-0.5 sm:mt-1 leading-normal max-w-sm">
+                <span className="text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-widest text-slate-450">Analisis AI Insight</span>
+                <div className="text-[10px] sm:text-[11.5px] md:text-xs text-slate-500 italic mt-0.5 sm:mt-1 leading-normal max-w-sm">
                   {isAiLoading ? (
                     <span className="flex items-center gap-1.5 text-indigo-600 font-semibold animate-pulse">
                       <RefreshCw className="w-3 h-3 animate-spin" />
                       Menganalisis data transaksi...
                     </span>
                   ) : (
-                    aiSummary || 'Tekan tombol di sebelah kanan untuk menganalisis data keuangan Anda.'
+                    aiSummary || 'Tekan tombol di sebelah kanan untuk menganalisis data keuangan Anda secara instan menggunakan AI.'
                   )}
                 </div>
               </div>
@@ -331,14 +331,14 @@ export default function App() {
               <button
                 onClick={fetchAiSummary}
                 disabled={isAiLoading || debts.length === 0}
-                className="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl p-1.5 sm:p-2 transition-all shrink-0 hover:scale-105 active:scale-95 disabled:opacity-40"
+                className="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl p-1.5 sm:p-2 md:p-2.5 transition-all shrink-0 hover:scale-105 active:scale-95 disabled:opacity-40"
                 title="Dapatkan Ringkasan Keuangan AI"
               >
                 <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-600" />
               </button>
             </div>
             
-            <div className="mt-1.5 sm:mt-2 text-[8px] sm:text-[9px] text-indigo-500 font-bold bg-indigo-50/50 rounded-lg px-2 py-0.5 sm:px-2.5 sm:py-1 w-fit flex items-center gap-1">
+            <div className="mt-2 text-[8px] sm:text-[9px] text-indigo-500 font-bold bg-indigo-50/50 rounded-lg px-2 py-0.5 sm:px-2.5 sm:py-1 w-fit flex items-center gap-1">
               <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-indigo-500 animate-ping" />
               <span>GEMINI AI CO-PILOT</span>
             </div>
@@ -347,7 +347,7 @@ export default function App() {
 
         {/* Detailed Table/Card Section */}
         <div className="flex-1 bg-white border border-slate-200 rounded-2xl md:rounded-xl shadow-sm flex flex-col overflow-hidden min-h-[350px]">
-          <div className="px-3 sm:px-4 py-2.5 sm:py-3 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between bg-slate-50/40 gap-2.5 sm:gap-3">
+          <div className="px-3 sm:px-4 md:px-5 py-2.5 sm:py-3 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between bg-slate-50/40 gap-2.5 sm:gap-3">
             <div className="flex items-center gap-2">
               <h3 className="text-xs font-bold text-slate-700 uppercase tracking-widest">Rincian Transaksi</h3>
               <span className="bg-slate-100 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-full">
@@ -390,22 +390,21 @@ export default function App() {
               </div>
             </div>
           </div>
-          
-          <div className="overflow-auto flex-1 high-density-scrollbar bg-white">
+                 <div className="overflow-auto flex-1 high-density-scrollbar bg-white">
             {/* Desktop Table View */}
             <table className="hidden md:table w-full text-left border-collapse min-w-[800px]">
-              <thead className="sticky top-0 bg-slate-50/80 backdrop-blur-sm border-b border-slate-200 text-[10px] uppercase text-slate-400 font-bold tracking-widest z-10">
+              <thead className="sticky top-0 bg-slate-50/80 backdrop-blur-sm border-b border-slate-200 text-[10px] md:text-[11px] uppercase text-slate-400 font-bold tracking-widest z-10">
                 <tr>
-                  <th className="px-6 py-3">Nama Peminjam / ID</th>
-                  <th className="px-6 py-3">Jumlah (IDR)</th>
-                  <th className="px-6 py-3">Tipe</th>
-                  <th className="px-6 py-3 text-center">Tanggal Dibuat</th>
-                  <th className="px-6 py-3">Catatan / Keterangan</th>
-                  <th className="px-6 py-3">Status</th>
-                  <th className="px-6 py-3 text-right">Aksi</th>
+                  <th className="px-6 py-3.5 md:py-4">Nama Peminjam / ID</th>
+                  <th className="px-6 py-3.5 md:py-4">Jumlah (IDR)</th>
+                  <th className="px-6 py-3.5 md:py-4">Tipe</th>
+                  <th className="px-6 py-3.5 md:py-4 text-center">Tanggal Dibuat</th>
+                  <th className="px-6 py-3.5 md:py-4">Catatan / Keterangan</th>
+                  <th className="px-6 py-3.5 md:py-4">Status</th>
+                  <th className="px-6 py-3.5 md:py-4 text-right">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="text-xs divide-y divide-slate-100">
+              <tbody className="text-xs md:text-[13px] divide-y divide-slate-100">
                 <AnimatePresence mode="popLayout" initial={false}>
                   {filteredDebts.length > 0 ? (
                     filteredDebts.map((debt) => (
@@ -420,47 +419,47 @@ export default function App() {
                           debt.status === 'paid' && "bg-[#f8fafc]/30 opacity-70"
                         )}
                       >
-                        <td className="px-6 py-3">
-                          <p className="font-bold text-slate-900">{debt.contactName}</p>
-                          <p className="text-[9px] text-slate-400 font-mono uppercase tracking-wider">#{debt.id.slice(-6)}</p>
+                        <td className="px-6 py-3.5 md:py-4">
+                          <p className="font-bold text-slate-900 text-xs md:text-sm">{debt.contactName}</p>
+                          <p className="text-[9px] md:text-[10px] text-slate-400 font-mono uppercase tracking-wider mt-0.5">#{debt.id.slice(-6)}</p>
                         </td>
                         <td className={cn(
-                          "px-6 py-3 font-bold font-mono text-xs tracking-tight",
+                          "px-6 py-3.5 md:py-4 font-bold font-mono text-xs md:text-sm tracking-tight",
                           debt.type === 'owe' ? "text-rose-600" : "text-emerald-600"
                         )}>
                           {formatCurrency(debt.amount)}
                         </td>
-                        <td className="px-6 py-3">
+                        <td className="px-6 py-3.5 md:py-4">
                           <span className={cn(
-                            "inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[9px] font-bold tracking-wider",
+                            "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] md:text-[10px] font-bold tracking-wider",
                             debt.type === 'owe' 
                               ? "bg-rose-50 text-rose-600 border border-rose-100" 
                               : "bg-emerald-50 text-emerald-600 border border-emerald-100"
                           )}>
                             {debt.type === 'owe' ? (
                               <>
-                                <ArrowDownLeft className="w-2.5 h-2.5 shrink-0" />
+                                <ArrowDownLeft className="w-2.5 h-2.5 md:w-3 md:h-3 shrink-0" />
                                 HUTANG
                               </>
                             ) : (
                               <>
-                                <ArrowUpRight className="w-2.5 h-2.5 shrink-0" />
+                                <ArrowUpRight className="w-2.5 h-2.5 md:w-3 md:h-3 shrink-0" />
                                 PIUTANG
                               </>
                             )}
                           </span>
                         </td>
-                        <td className="px-6 py-3 text-center font-medium text-slate-500">
+                        <td className="px-6 py-3.5 md:py-4 text-center font-medium text-slate-500">
                           {new Date(debt.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}
                         </td>
-                        <td className="px-6 py-3 text-slate-500 max-w-xs truncate font-medium">
+                        <td className="px-6 py-3.5 md:py-4 text-slate-500 max-w-xs truncate font-medium">
                           {debt.notes || <span className="text-slate-300 italic">tidak ada catatan</span>}
                         </td>
-                        <td className="px-6 py-3">
+                        <td className="px-6 py-3.5 md:py-4">
                           <button 
                             onClick={() => handleToggleStatus(debt)}
                             className={cn(
-                              "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase transition-all duration-150 hover:scale-[1.03] active:scale-95 shadow-sm border",
+                              "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] md:text-[10px] font-bold uppercase transition-all duration-150 hover:scale-[1.03] active:scale-95 shadow-sm border",
                               debt.status === 'paid' 
                                 ? "bg-slate-50 text-slate-500 border-slate-200" 
                                 : "bg-amber-50 text-amber-700 border-amber-200"
@@ -468,36 +467,36 @@ export default function App() {
                           >
                             {debt.status === 'paid' ? (
                               <>
-                                <Check className="w-2.5 h-2.5" />
+                                <Check className="w-2.5 h-2.5 md:w-3 md:h-3" />
                                 LUNAS
                               </>
                             ) : (
                               <>
-                                <Clock className="w-2.5 h-2.5" />
+                                <Clock className="w-2.5 h-2.5 md:w-3 md:h-3" />
                                 BELUM LUNAS
                               </>
                             )}
                           </button>
                         </td>
-                        <td className="px-6 py-3 text-right">
+                        <td className="px-6 py-3.5 md:py-4 text-right">
                           <div className="flex items-center justify-end gap-1.5 opacity-80 group-hover:opacity-100 transition-opacity">
                             <button 
                               onClick={() => {
                                 setEditingDebt(debt);
                                 setIsFormOpen(true);
                               }}
-                              className="p-1 px-2.5 text-slate-600 hover:text-indigo-600 hover:bg-slate-100 rounded-lg text-[9px] font-bold uppercase tracking-wider flex items-center gap-1 transition-all"
+                              className="p-1.5 px-2.5 text-slate-600 hover:text-indigo-600 hover:bg-slate-100 rounded-lg text-[9px] md:text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 transition-all"
                               title="Edit"
                             >
-                              <Edit2 className="w-2.5 h-2.5" />
+                              <Edit2 className="w-2.5 h-2.5 md:w-3 md:h-3" />
                               EDIT
                             </button>
                             <button 
                               onClick={() => handleDeleteDebt(debt.id)}
-                              className="p-1 px-2.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg text-[9px] font-bold uppercase tracking-wider flex items-center gap-1 transition-all"
+                              className="p-1.5 px-2.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg text-[9px] md:text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 transition-all"
                               title="Hapus"
                             >
-                              <Trash2 className="w-2.5 h-2.5" />
+                              <Trash2 className="w-2.5 h-2.5 md:w-3 md:h-3" />
                               HAPUS
                             </button>
                           </div>
