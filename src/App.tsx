@@ -390,207 +390,119 @@ export default function App() {
               </div>
             </div>
           </div>
-                 <div className="overflow-auto flex-1 high-density-scrollbar bg-white">
-            {/* Desktop Table View */}
-            <table className="hidden md:table w-full text-left border-collapse min-w-[800px]">
-              <thead className="sticky top-0 bg-slate-50/80 backdrop-blur-sm border-b border-slate-200 text-[10px] md:text-[11px] uppercase text-slate-400 font-bold tracking-widest z-10">
-                <tr>
-                  <th className="px-6 py-3.5 md:py-4">Nama Peminjam / ID</th>
-                  <th className="px-6 py-3.5 md:py-4">Jumlah (IDR)</th>
-                  <th className="px-6 py-3.5 md:py-4">Tipe</th>
-                  <th className="px-6 py-3.5 md:py-4 text-center">Tanggal Dibuat</th>
-                  <th className="px-6 py-3.5 md:py-4">Catatan / Keterangan</th>
-                  <th className="px-6 py-3.5 md:py-4">Status</th>
-                  <th className="px-6 py-3.5 md:py-4 text-right">Aksi</th>
-                </tr>
-              </thead>
-              <tbody className="text-xs md:text-[13px] divide-y divide-slate-100">
-                <AnimatePresence mode="popLayout" initial={false}>
-                  {filteredDebts.length > 0 ? (
-                    filteredDebts.map((debt) => (
-                      <motion.tr 
-                        key={debt.id}
-                        layout
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className={cn(
-                          "hover:bg-[#f8fafc]/50 transition-colors duration-150 group",
-                          debt.status === 'paid' && "bg-[#f8fafc]/30 opacity-70"
-                        )}
-                      >
-                        <td className="px-6 py-3.5 md:py-4">
-                          <p className="font-bold text-slate-900 text-xs md:text-sm">{debt.contactName}</p>
-                          <p className="text-[9px] md:text-[10px] text-slate-400 font-mono uppercase tracking-wider mt-0.5">#{debt.id.slice(-6)}</p>
-                        </td>
-                        <td className={cn(
-                          "px-6 py-3.5 md:py-4 font-bold font-mono text-xs md:text-sm tracking-tight",
-                          debt.type === 'owe' ? "text-rose-600" : "text-emerald-600"
-                        )}>
-                          {formatCurrency(debt.amount)}
-                        </td>
-                        <td className="px-6 py-3.5 md:py-4">
-                          <span className={cn(
-                            "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] md:text-[10px] font-bold tracking-wider",
-                            debt.type === 'owe' 
-                              ? "bg-rose-50 text-rose-600 border border-rose-100" 
-                              : "bg-emerald-50 text-emerald-600 border border-emerald-100"
-                          )}>
-                            {debt.type === 'owe' ? (
-                              <>
-                                <ArrowDownLeft className="w-2.5 h-2.5 md:w-3 md:h-3 shrink-0" />
-                                HUTANG
-                              </>
-                            ) : (
-                              <>
-                                <ArrowUpRight className="w-2.5 h-2.5 md:w-3 md:h-3 shrink-0" />
-                                PIUTANG
-                              </>
-                            )}
-                          </span>
-                        </td>
-                        <td className="px-6 py-3.5 md:py-4 text-center font-medium text-slate-500">
-                          {new Date(debt.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}
-                        </td>
-                        <td className="px-6 py-3.5 md:py-4 text-slate-500 max-w-xs truncate font-medium">
-                          {debt.notes || <span className="text-slate-300 italic">tidak ada catatan</span>}
-                        </td>
-                        <td className="px-6 py-3.5 md:py-4">
-                          <button 
-                            onClick={() => handleToggleStatus(debt)}
-                            className={cn(
-                              "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] md:text-[10px] font-bold uppercase transition-all duration-150 hover:scale-[1.03] active:scale-95 shadow-sm border",
-                              debt.status === 'paid' 
-                                ? "bg-slate-50 text-slate-500 border-slate-200" 
-                                : "bg-amber-50 text-amber-700 border-amber-200"
-                            )}
-                          >
-                            {debt.status === 'paid' ? (
-                              <>
-                                <Check className="w-2.5 h-2.5 md:w-3 md:h-3" />
-                                LUNAS
-                              </>
-                            ) : (
-                              <>
-                                <Clock className="w-2.5 h-2.5 md:w-3 md:h-3" />
-                                BELUM LUNAS
-                              </>
-                            )}
-                          </button>
-                        </td>
-                        <td className="px-6 py-3.5 md:py-4 text-right">
-                          <div className="flex items-center justify-end gap-1.5 opacity-80 group-hover:opacity-100 transition-opacity">
-                            <button 
-                              onClick={() => {
-                                setEditingDebt(debt);
-                                setIsFormOpen(true);
-                              }}
-                              className="p-1.5 px-2.5 text-slate-600 hover:text-indigo-600 hover:bg-slate-100 rounded-lg text-[9px] md:text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 transition-all"
-                              title="Edit"
-                            >
-                              <Edit2 className="w-2.5 h-2.5 md:w-3 md:h-3" />
-                              EDIT
-                            </button>
-                            <button 
-                              onClick={() => handleDeleteDebt(debt.id)}
-                              className="p-1.5 px-2.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg text-[9px] md:text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 transition-all"
-                              title="Hapus"
-                            >
-                              <Trash2 className="w-2.5 h-2.5 md:w-3 md:h-3" />
-                              HAPUS
-                            </button>
-                          </div>
-                        </td>
-                      </motion.tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={7} className="px-6 py-20 text-center">
-                        <p className="text-slate-400 font-medium text-xs italic">Data tidak ditemukan</p>
-                      </td>
-                    </tr>
-                  )}
-                </AnimatePresence>
-              </tbody>
-            </table>
-
-            {/* Mobile Card View */}
-            <div className="md:hidden p-3.5 space-y-3 bg-slate-50/25">
-              <AnimatePresence mode="popLayout" initial={false}>
-                {filteredDebts.length > 0 ? (
-                  filteredDebts.map((debt) => (
+          <div className="overflow-auto flex-1 p-4 sm:p-5 high-density-scrollbar bg-slate-50/10">
+            <AnimatePresence mode="popLayout" initial={false}>
+              {filteredDebts.length > 0 ? (
+                <div id="transaction-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                  {filteredDebts.map((debt) => (
                     <motion.div
                       key={debt.id}
                       layout
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
+                      initial={{ opacity: 0, scale: 0.95, y: 8 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
                       className={cn(
-                        "bg-white border border-slate-200/50 rounded-xl p-3.5 shadow-sm relative overflow-hidden",
-                        debt.status === 'paid' && "opacity-75 bg-slate-50/50"
+                        "bg-white border rounded-2xl p-4 md:p-5 shadow-sm hover:shadow-md hover:border-slate-300 transition-all flex flex-col justify-between relative overflow-hidden group min-h-[190px]",
+                        debt.status === 'paid' ? "border-slate-100 opacity-75 md:opacity-85 bg-slate-50/30" : "border-slate-250 bg-white"
                       )}
                     >
-                      <div className="flex justify-between items-start gap-2 mb-1.5">
-                        <div className="min-w-0 flex-1">
-                          <h4 className="font-bold text-slate-900 text-xs truncate leading-snug">{debt.contactName}</h4>
-                          <span className="text-[8px] text-slate-400 font-mono uppercase tracking-wider block mt-0.5">#{debt.id.slice(-6)}</span>
+                      {/* Top Row: Contact Name & Status Type Badge */}
+                      <div className="flex items-start justify-between gap-3 mb-3 shrink-0">
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          {/* Avatar Initials with custom status color */}
+                          <div className={cn(
+                            "w-9 h-9 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 select-none shadow-sm",
+                            debt.type === 'owe'
+                              ? "bg-rose-550/10 text-rose-600 border border-rose-100 bg-rose-50"
+                              : "bg-emerald-550/10 text-emerald-600 border border-emerald-100 bg-emerald-50"
+                          )}>
+                            {debt.contactName.slice(0, 2).toUpperCase()}
+                          </div>
+                          <div className="min-w-0">
+                            <h4 className="font-extrabold text-slate-800 text-xs sm:text-sm truncate leading-snug tracking-tight">
+                              {debt.contactName}
+                            </h4>
+                            <span className="text-[9px] text-slate-400 font-mono uppercase tracking-wider block mt-0.5">
+                              #{debt.id.slice(-6)}
+                            </span>
+                          </div>
                         </div>
-                        
+
                         <span className={cn(
-                          "inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[8px] font-bold tracking-wider shrink-0",
-                          debt.type === 'owe' 
-                            ? "bg-rose-50 text-rose-600 border border-rose-100" 
-                            : "bg-emerald-50 text-emerald-600 border border-emerald-100"
+                          "inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[9px] font-bold tracking-wider shrink-0",
+                          debt.type === 'owe'
+                            ? "bg-rose-50 text-rose-600 border border-rose-100/55"
+                            : "bg-emerald-550/10 text-emerald-600 border border-emerald-100/55 bg-emerald-50"
                         )}>
-                          {debt.type === 'owe' ? <ArrowDownLeft className="w-2.5 h-2.5" /> : <ArrowUpRight className="w-2.5 h-2.5" />}
+                          {debt.type === 'owe' ? <ArrowDownLeft className="w-2.5 h-2.5 shrink-0" /> : <ArrowUpRight className="w-2.5 h-2.5 shrink-0" />}
                           {debt.type === 'owe' ? 'HUTANG' : 'PIUTANG'}
                         </span>
                       </div>
-                      
-                      <div className="text-[13px] sm:text-sm font-mono font-bold text-slate-900 mb-2.5 tracking-wide">
-                        {formatCurrency(debt.amount)}
-                      </div>
-                      
-                      {debt.notes && (
-                        <p className="text-[10px] text-slate-500 bg-slate-50 p-2 rounded-lg font-medium mb-2.5 border border-slate-100/30 whitespace-pre-wrap leading-relaxed">
-                          {debt.notes}
+
+                      {/* Middle Row: Amount */}
+                      <div className="mb-3">
+                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Jumlah Transaksi</div>
+                        <p className={cn(
+                          "text-base sm:text-lg font-mono font-bold tracking-tight truncate",
+                          debt.type === 'owe' ? "text-rose-600" : "text-emerald-600"
+                        )}>
+                          {debt.type === 'owe' ? '-' : '+'}{formatCurrency(debt.amount)}
                         </p>
-                      )}
-                      
-                      <div className="flex items-center justify-between border-t border-slate-100 pt-2.5 mt-1">
-                        <div className="flex items-center gap-1 text-[9px] text-slate-400 font-semibold tracking-wider uppercase">
-                          <Calendar className="w-2.5 h-2.5 text-slate-300" />
-                          {new Date(debt.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' })}
+                      </div>
+
+                      {/* Display Notes/Comments (if any) */}
+                      <div className="flex-1 mb-4 flex flex-col justify-end">
+                        {debt.notes ? (
+                          <div className="text-[11px] text-slate-500 bg-slate-50/70 p-2.5 rounded-xl border border-slate-100 leading-relaxed font-semibold line-clamp-2 hover:line-clamp-none transition-all cursor-pointer">
+                            {debt.notes}
+                          </div>
+                        ) : (
+                          <div className="text-[10px] text-slate-350 italic bg-slate-50/30 p-2 rounded-xl border border-dashed border-slate-100">
+                            tidak ada keterangan tambahan
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Action & Metadata Footer */}
+                      <div className="border-t border-slate-100/80 pt-3 mt-auto flex items-center justify-between shrink-0">
+                        {/* Transaction Date */}
+                        <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-semibold tracking-wide uppercase">
+                          <Calendar className="w-3 h-3 text-slate-300" />
+                          <span>{new Date(debt.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
                         </div>
-                        
+
+                        {/* Interactive Buttons Container */}
                         <div className="flex items-center gap-2">
-                          <button 
+                          {/* Toggle Status Button */}
+                          <button
                             onClick={() => handleToggleStatus(debt)}
                             className={cn(
-                              "inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[9px] font-bold border uppercase transition-all duration-150 active:scale-95 shadow-sm",
-                              debt.status === 'paid' 
-                                ? "bg-slate-50 text-slate-500 border-slate-200" 
-                                : "bg-amber-50 text-amber-700 border-amber-200"
+                              "inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-[9px] font-bold uppercase transition-all duration-150 active:scale-95 shadow-sm border cursor-pointer",
+                              debt.status === 'paid'
+                                ? "bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100"
+                                : "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100"
                             )}
                           >
                             {debt.status === 'paid' ? 'LUNAS' : 'PENDING'}
                           </button>
-                          
+
+                          {/* Edit / Delete Buttons */}
                           <div className="flex items-center gap-0.5">
-                            <button 
+                            <button
                               onClick={() => {
                                 setEditingDebt(debt);
                                 setIsFormOpen(true);
                               }}
-                              className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-slate-50 rounded-lg transition-all"
-                              title="Edit"
+                              className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50/50 rounded-lg transition-all cursor-pointer"
+                              title="Ubah Catatan"
                             >
                               <Edit2 className="w-3.5 h-3.5" />
                             </button>
-                            <button 
+                            <button
                               onClick={() => handleDeleteDebt(debt.id)}
-                              className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
-                              title="Hapus"
+                              className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all cursor-pointer"
+                              title="Hapus Catatan"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
@@ -598,14 +510,18 @@ export default function App() {
                         </div>
                       </div>
                     </motion.div>
-                  ))
-                ) : (
-                  <div className="py-12 text-center">
-                    <p className="text-slate-400 text-xs italic">Data tidak ditemukan</p>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-20 text-center">
+                  <div className="bg-slate-100/80 p-3 rounded-2xl mb-3">
+                    <Search className="w-6 h-6 text-slate-400" />
                   </div>
-                )}
-              </AnimatePresence>
-            </div>
+                  <h4 className="font-extrabold text-slate-800 text-sm tracking-tight mb-1">Transaksi Tidak Ditemukan</h4>
+                  <p className="text-xs text-slate-400 max-w-xs font-medium">Ubah kata kunci pencarian atau bersihkan filter untuk menampilkan data lainnya.</p>
+                </div>
+              )}
+            </AnimatePresence>
           </div>
           
           <div className="mt-auto p-3.5 bg-slate-50/60 border-t border-slate-100 flex items-center justify-between text-[9px] font-semibold text-slate-400 uppercase tracking-widest shrink-0">
